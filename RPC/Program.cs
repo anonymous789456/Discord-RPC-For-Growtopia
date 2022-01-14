@@ -12,6 +12,7 @@ namespace RPC
     {
         #region Initialize/Dispose
         public static DiscordRpcClient client;
+        public static string GlobalGrowID;
         
         public static void Start()
         {
@@ -48,8 +49,13 @@ namespace RPC
 
         private static void Changed(object source, FileSystemEventArgs e)
         {
+            if (GlobalGrowID == GrowID())
+            {
+                return;
+            }
             try
             {
+                GlobalGrowID = GrowID();
                 client.SetPresence(new RichPresence()
                 {
                     Timestamps = new Timestamps(DateTime.UtcNow),
